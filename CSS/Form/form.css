@@ -1,0 +1,34 @@
+
+body{
+    align-items: center;
+    background-color: rgb(254, 254, 254);
+}
+#heads{
+    margin: 10px;
+    padding: 10px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color: rgb(49, 49, 182);   
+}
+.formst{
+    margin:  5px;
+    padding: 5px;
+    border-radius: 40px;
+    border: 2px solid rgb(34, 98, 155);
+    width: 100%;
+    padding: 2rem;
+    background-color: azure;
+}
+h3{
+    padding-right: 180px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: rgb(55, 55, 178);
+}
+.form{
+    
+   display: grid;
+   z-index: 5;
+   grid-template-columns: repeat(2 , lfr);
+}
+
+
+
