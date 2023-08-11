@@ -6,51 +6,42 @@
     <title>Document</title>
     <link rel="stylesheet" href="form.css" />
   </head>
-  <body align="center">
+  <body>
     <div class="container">
-      <div id="heads">
-        <h1>Form Structure</h1>
-      </div>
       <div class="formst">
-        <form>
+        <h1>Form Structure</h1>
+        <form id="formm">
           <h3>Personal</h3>
           <br />
           <label for="fname">First Name : </label>
           <br />
-          <input type="text" name="fname" />
-          <br />
-          <br />
+          <input type="text" name="fname" id="full"/>
+          <br /><br />
           <label for="lname">Last Name : </label>
           <br />
-          <input type="text" name="lname" />
-          <br />
-          <br />
+          <input type="text" name="lname" id="full" />
+          <br /><br />
           <label for="dob">Date of Birth : </label>
           <br />
-          <input type="date" name="dob" />
-          <br />
-          <br />
+          <input type="date" name="dob" id="full"/>
+          <br /><br />
           <label for="age">Age : </label>
           <br />
-          <input type="number" name="age" />
-          <br />
-          <br />
+          <input type="number" name="age" id="full"/>
+          <br /><br />
           <label for="gender">Gender : </label>
           <br />
-          <input type="radio" value="Female" name="gender" />
-          <label> Female </label>
-          <br />
-          <input type="radio" value="Male" name="gender" />
-          <label> Male </label>
-          <br />
-          <br />
+          <input type="radio" value="Female" name="gender" id="gender" />
+          <span>Female</span>
+          <input type="radio" value="Male" name="gender" id="gender"/>
+          <span>Male</span>
+          <br /><br />
           <h3>Contact</h3>
           <br />
           <label for="mail">Email: </label>
           <br />
-          <input type="email" name="mail" />
-          <br />
-          <br />
+          <input type="email" name="mail" placeholder="abc@xyx.com" id="full"/>
+          <br /><br />
           <label for="phno">Phone Number : </label>
           <br />
           <input
@@ -58,17 +49,19 @@
             maxlength="10"
             pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
             name="phno"
+            placeholder="1234567890"
+            id="full"
           />
-          <br />
-          <br />
+          <br /><br />
           <label for="myfile">Resume :</label>
-          <input type="file" id="myfile" name="myfile" />
           <br />
-          <br />
+          <input type="file" id="myfile" name="myfile" hint="pdf file only" id="full"/>
+          <br /><br />
           <div class="buttons">
-            <input type="reset" value="Reset" />
-            <input type="submit" value="Submit" />
+            <input type="reset" value="Reset" class="submit" />
+            <input type="submit" value="Submit" class="submit"/>
           </div>
+          <br /><br />
         </form>
       </div>
     </div>
