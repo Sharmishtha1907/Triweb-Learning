@@ -1,4 +1,44 @@
-*{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
 }
+body {
+  background-image: url(https://images.pexels.com/photos/769041/pexels-photo-769041.jpeg?cs=srgb&dl=pexels-andrea-piacquadio-769041.jpg&fm=jpg);
+  display: flex;
+  justify-content: center;
+  font-family: sans-serif;
+  min-height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  align-items: center;
+  font-family: 'Dancing Script';
+}
+.container {
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 252, 252, 0.35);
+  padding: 50px;
+  height: fit-content;
+  border: 1px solid rgba(56, 55, 55, 0.3);
+  border-radius: 15px;
+}
+caption {
+  font-style: italic;
+  font-size: 18px;
+  font-weight: 800;
+  color: rgba(123, 59, 17, 0.663);
+  margin-bottom: 30px;
+}
+table {
+  border-spacing: 0px;
+  border: 1px solid rgb(57, 57, 57);
+}
+th {
+  border: 1px solid rgb(92, 92, 92);
+  padding: 7px;
+}
+td {
+  border: 1px solid rgb(71, 71, 71);
+  padding: 7px;
+}
+
