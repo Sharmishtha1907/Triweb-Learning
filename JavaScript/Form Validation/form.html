@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="form.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="formst">
+        <h1>Form Structure</h1>
+        <form onsubmit="return validate()">
+          <h3>Personal</h3>
+          <br />
+          <label for="fname">First Name : </label>
+          <br />
+          <input type="text" name="fname" id="full" id="fname" />
+          <br /><br />
+          <label for="lname">Last Name : </label>
+          <br />
+          <input type="text" name="lname" id="full" id="lname" />
+          <br /><br />
+          <label for="dob">Date of Birth : </label>
+          <br />
+          <input type="date" name="dob" id="full" id="dob" />
+          <br /><br />
+          <label for="age">Age : </label>
+          <br />
+          <input type="number" name="age" id="full" id="age" />
+          <br /><br />
+          <label for="gender">Gender : </label>
+          <br />
+          <input type="radio" value="Female" name="gender" id="gender" />
+          <span>Female</span>
+          <input type="radio" value="Male" name="gender" id="gender" />
+          <span>Male</span>
+          <br /><br />
+          <h3>Contact</h3>
+          <br />
+          <label for="mail">Email: </label>
+          <br />
+          <input type="email" name="mail" placeholder="abc@xyx.com" id="full" />
+          <br /><br />
+          <label for="phno">Phone Number : </label>
+          <br />
+          <input
+            type="tel"
+            maxlength="10"
+            pattern="[0-9]{3}[0-9]{4}[0-9]{3}"
+            name="phno"
+            placeholder="1234567890"
+            id="full"
+          />
+          <br /><br />
+          <label for="myfile">Resume :</label>
+          <br />
+          <input
+            type="file"
+            id="myfile"
+            name="myfile"
+            hint="pdf file only"
+            id="full"
+          />
+          <br /><br />
+          <div class="buttons">
+            <input type="reset" value="Reset" class="submit" />
+            <input
+              type="submit"
+              value="Submit"
+              class="submit"
+            />
+          </div>
+          <br /><br />
+        </form>
+      </div>
+    </div>
+    <script>
+      function validate() {
+        var fname = document.getElementById('fname');
+        if (fname.value=="") {
+          alert("Name should have atleast 5 characters");
+          return false;
+        }
+
+        let dob = document.getElementById("dob");
+        let dateob = new Date(dob);
+        let today = new Date();
+        let age = document.querySelector("age");
+        if (dateob.getFullYear() > 2005) {
+          alert("You are underage");
+        }
+        if (dateob.getFullYear - today.getFullYear != age) {
+          alert("Date of birth and age do not match");
+        }
+      }
+    </script>
+  </body>
+</html>

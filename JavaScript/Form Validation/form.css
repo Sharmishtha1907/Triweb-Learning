@@ -1,0 +1,64 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    align-items: center;
+    background:url("https://i.pinimg.com/originals/f5/b7/6b/f5b76b2e176a535c4ec876d9b05723fc.jpg");
+    background-size: 100%;
+}
+
+.container{
+    align-items: center;
+    width: 400px;
+    margin:100px auto 100px auto;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+h1{
+    text-align: center;
+    padding: 20px;
+    font-family: sans-serif;
+    color: rgb(252, 246, 246); 
+}
+form{
+    margin-left: 50px;
+}
+.formst{
+    align-items: center;
+    background-color: rgba(0,0,0,0.5);
+    width: 100%;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+    color:#fff
+}
+label{
+    font-family: sans-serif;
+    font-size: 18px;
+}
+
+input#full{
+    width: 240px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    outline: 0;
+    padding: 7px;
+    background-color: #fbf9f9;
+    box-shadow: inset 1px 1px 5px rgba(0,0,0,0.3);
+}
+input.submit{
+    width: 100px;
+    padding: 7px;
+    margin: 20px;
+    cursor: pointer;
+    background-color: rgba(241, 120, 40, 0.8);
+}
+
+
+
+
+
+
+
+
