@@ -1,18 +1,20 @@
-function validate() {
+const submit=document.getElementById("submit");
 
-  var fname = document.getElementById('fname');
-  if (fname.length()< 5) {
-    alert("Name should have atleast 5 characters");
-  }
-
-  let dob = document.getElementById('dob');
-  let dateob = new Date(dob);
-  let today = new Date();
-  let age = document.querySelector('age');
-  if (dateob.getFullYear() > 2005) {
-    alert("You are underage");
-  }
-  if (dateob.getFullYear - today.getFullYear != age) {
-    alert("Date of birth and age do not match");
-  }
+function validate(){
+    const  firstname=document.getElementById("fname");
+    const  lastname=document.getElementById("lname");
+    function checkparam(fname,lname){
+      if(fname == null||fname==""){
+        alert("First name field should not be empty");
+        return false;
+      }
+      if(lname.value==null||lname.value==""){
+        alert("Last name field should not be empty");
+        return false;
+      }
+    }
+    console.log(checkparam(firstname.value,lastname.value));
 }
+
+submit.addEventListener("click",validate);
+

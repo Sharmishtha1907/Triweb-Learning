@@ -10,7 +10,7 @@
     <div class="container">
       <div class="formst">
         <h1>Form Structure</h1>
-        <form onsubmit="return validate()">
+        <form >
           <h3>Personal</h3>
           <br />
           <label for="fname">First Name : </label>
@@ -40,7 +40,7 @@
           <br />
           <label for="mail">Email: </label>
           <br />
-          <input type="email" name="mail" placeholder="abc@xyx.com" id="full" />
+          <input type="email" name="mail" placeholder="abc@xyx.com" id="full" id="email" />
           <br /><br />
           <label for="phno">Phone Number : </label>
           <br />
@@ -69,31 +69,13 @@
               type="submit"
               value="Submit"
               class="submit"
+              id="submit"
             />
           </div>
           <br /><br />
         </form>
       </div>
     </div>
-    <script>
-      function validate() {
-        var fname = document.getElementById('fname');
-        if (fname.value=="") {
-          alert("Name should have atleast 5 characters");
-          return false;
-        }
-
-        let dob = document.getElementById("dob");
-        let dateob = new Date(dob);
-        let today = new Date();
-        let age = document.querySelector("age");
-        if (dateob.getFullYear() > 2005) {
-          alert("You are underage");
-        }
-        if (dateob.getFullYear - today.getFullYear != age) {
-          alert("Date of birth and age do not match");
-        }
-      }
-    </script>
+    <script src="validation.js"></script>
   </body>
 </html>
