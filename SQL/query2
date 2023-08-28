@@ -1,6 +1,6 @@
-CREATE DATABASE practiceTriWeb;
+CREATE DATABASE triweb;
 
-use practiceTriWeb;
+use triweb;
 
 CREATE TABLE students (
     id INT(50) NOT null PRIMARY KEY,
