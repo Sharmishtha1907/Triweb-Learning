@@ -1,0 +1,64 @@
+create database triweb;
+
+use triweb;
+
+CREATE TABLE Teachers( 
+    id INT(22) NOT null AUTO_INCREMENT PRIMARY KEY, 
+    teacher_name VARCHAR(50) NOT null, 
+    mobile_num VARCHAR(10) NOT null,
+    salary int(30)
+     );
+
+CREATE TABLE classes(
+    id INT(22) NOT null AUTO_INCREMENT,
+    class_name VARCHAR(50) NOT null,
+    class_teacher_id int(22) NOT null,
+    PRIMARY KEY (id),
+    FOREIGN KEY(class_teacher_id) REFERENCES Teachers(id)
+    );
+
+CREATE TABLE students(
+    id INT NOT null AUTO_INCREMENT,
+    student_name VARCHAR(50) NOT null,
+    mobile varchar(20) default 0,
+    class_id int NOT null,
+    PRIMARY KEY (id),
+    FOREIGN KEY(class_id) REFERENCES classes(id)
+    );
+
+INSERT INTO Teachers(teacher_name,mobile_num,salary)VALUES ('teach1','1234',5000);
+
+INSERT INTO Teachers(teacher_name,mobile_num,salary)VALUES ('teach2','1235',4000),('teach3','1236',6000);
+
+INSERT INTO Teachers VALUES (4,'teach4','1237',6000);
+
+insert into classes(
+    class_name,class_teacher_id)values ('Class A1',1);
+
+insert into classes(
+    class_name,class_teacher_id)values ('Class A4',4);
+
+insert into classes(
+    class_name,class_teacher_id)values ('Class A6',1);
+
+update classes set class_name = 'Class A12' where id=1;
+
+insert into students (student_name,mobile,class_id) values('Alex','12345',5);
+
+insert into students (student_name,mobile,class_id) values('Alex2','12346',3),('Alex3','12347',2),('Alex4','12348',4),('Ally1','123245',2),('Ally','122345',2),('Alisha','112345',3),('ellis','1234565',1);
+
+select * from students where class_id = 4 or class_id=3;
+
+update students set mobile='12346' where id=18;
+
+select * from students where mobile ='12346' and class_id =4;
+
+select * from students where class_id <>4;
+
+select * from students where class_id <>4 order by class_id;
+
+select * from students where class_id <>4 order by class_id asc;
+
+select * from students where class_id <>4 order by class_id desc;
+
+
