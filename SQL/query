@@ -1,0 +1,19 @@
+//Create>>
+
+CREATE TABLE `triweb`.`users` (`id` INT(20) NOT NULL AUTO_INCREMENT , `name` VARCHAR(30) NOT NULL , `email` VARCHAR(30) NOT NULL , `password` VARCHAR(30) NOT NULL , `remark` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ;
+
+//Insert>>
+
+INSERT INTO `users`(`id`, `name`, `email`, `password`, `remark`) VALUES (1,'shanu','shuklashanu@gmail.com','shukla1907','Steam Account');
+
+//View>>
+
+Select * From user;
+
+//Update>>
+
+UPDATE `users` SET `password`= 'abcd' WHERE id=1;
+
+//Delete>>
+
+DELETE FROM `users` WHERE id=1;
