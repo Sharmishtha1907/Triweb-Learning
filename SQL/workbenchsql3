@@ -1,0 +1,28 @@
+
+select cl.*,tr.teacher_name
+from classes cl
+left join teachers tr on tr.id=cl.class_teacher_id;
+
+
+select cl.class_name as classTeacher,tr.teacher_name as TeacherName
+from classes cl
+left join teachers tr on tr.id=cl.class_teacher_id;
+
+select student_name from students
+union
+select teacher_name from teachers;
+
+select * from students
+group by class_id order by class_id;
+//error generated Error Code: 1055. Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'triweb.students.id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+
+select count(*) from students
+group by class_id order by class_id;
+
+select class_id,count(*) as nos from students
+group by class_id 
+having nos>1;
+
+insert into teachers_dup (id, teacher_name, mobile_num,salary)
+select id, teacher_name, mobile_num,salary from teachers
+where id=3 ; //duplicate a table
