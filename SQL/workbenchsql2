@@ -1,0 +1,26 @@
+select * from students where class_id =2 limit 2;
+
+select max(salary)from teachers;
+
+select min(salary)from teachers;
+
+select count(*) as NUMBERofTeachers from teachers;
+
+select avg(salary) as avgSal from teachers;
+
+select sum(salary) as TotalSal from teachers;
+
+select *  from students where student_name = 'alex2';
+
+select *  from students where student_name like 'al%';
+
+select *  from students where class_id in (1,4,5);
+
+//second highest salary>>
+select max(salary) from teachers where salary not in (6000);
+select max(salary) from teachers where salary not in (select max(salary) from teachers);
+
+select * from teachers where salary between 4000 and 6000;
+//will include 4000 and 6000 as well
+
+
