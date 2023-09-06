@@ -1,0 +1,33 @@
+  db.createCollection('posts',{})
+ 
+ 
+ db.createCollection('products',{
+    validator:{
+        $jsonSchema:{
+            bsonType:'object',
+            required:['title','pname','owner','reviews'],
+            properties:{
+                title:{
+                    bsonType:'string',
+                    description:'must be string'
+                },
+                pname:{
+                    bsonType:'string',
+                    description:'must be string'
+                },
+                owner:{
+                    bsonType:'objectId',
+                    description:'id of buyer'
+                },
+                reviews:{
+                    bsonType:'string',
+                    description:'must be string'
+                }
+                }
+                }
+                }
+                }
+                )
+
+
+db.products.insertOne({title:"Order",pname:"cup",owner: ObjectId("64f8d9f14d753056c86b2224"),reviews:"Cute mug"})
