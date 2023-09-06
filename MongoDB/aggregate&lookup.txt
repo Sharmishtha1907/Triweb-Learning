@@ -1,0 +1,47 @@
+db.mydb.find({ _id: ObjectId("64f8d9974d753056c86b2223")})
+
+db.mydb.insertOne({name:"Lmao",book:[ObjectId("64f8d9974d753056c86b2223")]})
+
+db.mydb.aggregate([{$lookup:{from:"mydb",localField:"book",foreignField:"_id" ,as: "favbk"} }])
+
+/*OUTPUT
+[
+  {
+    _id: ObjectId("64f8d9974d753056c86b2223"),
+    name: 'Shanu',
+    mobile: 12345,
+    favbk: []
+  },
+  {
+    _id: ObjectId("64f8d9f14d753056c86b2224"),
+    name: 'Shivansh',
+    mobile: 12346,
+    favbk: []
+  },
+  {
+    _id: ObjectId("64f8da954d753056c86b2225"),
+    name: 'Gojo',
+    mobile: 12347,
+    favbk: []
+  },
+  {
+    _id: ObjectId("64f8da954d753056c86b2227"),
+    name: 'Zero-Tsu',
+    mobile: 12340,
+    location: 'Leaf village',
+    favbk: []
+  },
+  {
+    _id: ObjectId("64f8dff74d753056c86b2228"),
+    name: 'Lmao',
+    book: [ ObjectId("64f8d9974d753056c86b2223") ],
+    favbk: [
+      {
+        _id: ObjectId("64f8d9974d753056c86b2223"),
+        name: 'Shanu',
+        mobile: 12345
+      }
+    ]
+  }
+]
+*/
