@@ -1,0 +1,4 @@
+Methods :
+GET to retrieve data 
+POST to create 
+PUT to update 
