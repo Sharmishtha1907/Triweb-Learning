@@ -5,8 +5,7 @@ import mongoose from 'mongoose';
 import UserRoute from './routers/user';
 
 const app=express();
-const connectionString = "mongodb+srv://beinggarffield:Shanu@prac.mb0f7y3.mongodb.net/workshop?retryWrites=true&w=majority"
-
+const connectionString = "mongodb+srv://beinggarffield:Shanu@prac.mb0f7y3.mongodb.net/workshop?retryWrites=true&w=majority";
 app.use(express.json());
 
 app.get('/',(req,res)=>{

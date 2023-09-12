@@ -12,12 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.getUser = exports.registerUser = void 0;
+exports.loginUser = exports.updateUser = exports.getUser = exports.registerUser = void 0;
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_1 = __importDefault(require("../model/user"));
 const registerUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let resp;
     try {
-        const User = new user_1.default(req.body);
+        const email = req.body.email;
+        const name = req.body.name;
+        let password = yield bcryptjs_1.default.hash(req.body.password, 12);
+        const User = new user_1.default({ email, name, password });
         const result = yield User.save();
         if (!result) {
             resp = { status: "error", message: "No result found", data: {} };
@@ -34,6 +39,37 @@ const registerUser = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.registerUser = registerUser;
+const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let resp;
+    try {
+        const email = req.body.email;
+        const password = req.body.password;
+        //find user
+        const User = yield user_1.default.findOne({ email });
+        if (User) {
+            //res.send(resp);
+            const status = yield bcryptjs_1.default.compare(password, User.password);
+            if (status) {
+                const token = jsonwebtoken_1.default.sign({ userId: User._id }, "secretkey", { expiresIn: '1h' });
+                resp = { status: "success", message: "Login Successful! :)", data: { token: token } };
+                res.send(resp);
+            }
+            else {
+                resp = { status: "success", message: "Login Unsuccessful! :(", data: {} };
+                res.send(resp);
+            }
+        }
+        else {
+            resp = { status: "error", message: "Invalid Login", data: {} };
+            res.status(401).send(resp);
+        }
+    }
+    catch (error) {
+        resp = { status: "error", message: "No result found", data: {} };
+        res.status(500).send(resp);
+    }
+});
+exports.loginUser = loginUser;
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let resp;
     try {
