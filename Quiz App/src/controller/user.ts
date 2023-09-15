@@ -1,115 +1,63 @@
-import { Request,Response,NextFunction} from "express";
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
 
-import user from '../model/user';
+import user from "../model/user";
 
-interface ReturnResponse{
-    status:"success"|"error",
-    message:String,
-    data:{}
+import Error from "../helper/error";
+
+interface ReturnResponse {
+  status: "success" | "error";
+  message: String;
+  data: {};
 }
 
-
-const registerUser= async (req:Request,res:Response,next:NextFunction)=>{
-
-    let resp:ReturnResponse;
-    try{
-    const email=req.body.email;
-    const name=req.body.name;
-    let password= await bcrypt.hash(req.body.password,12);
-    
-    const User = new user({email,name,password});
-    const result=await User.save();
-    if(!result){
-        resp={status:"error",message:"No result found",data:{}};
-        res.send(resp);
+const getUser = async (req: Request, res: Response, next: NextFunction) => {
+  let resp: ReturnResponse;
+  console.log(req.userId);
+  try {
+    const userID = req.params.userId;
+    if (req.userId != req.params.userId) {
+      const err = new Error("Function not allowed");
+      err.statusCode = 401;
+      throw err;
     }
-    else{
-        resp={status:"success",message:"Registeration done",data:{userId:result._id}};
-    res.send(resp);
+    const User = await user.findById(userID, { name: 1, email: 1 });
+    if (!User) {
+      const err = new Error("User does not  Exist");
+      err.statusCode = 401;
+      throw err;
+    } else {
+      resp = { status: "success", message: "User Found", data: { user: User } };
+      res.status(200).send(resp);
     }
-    }catch(error){
-        resp={status:"error",message:"No result found",data:{}};
-        res.status(500).send(resp);
-    }
-}
-
-const loginUser = async (req:Request,res:Response)=>{
-    let resp:ReturnResponse;
-    try{
-    const email=req.body.email;
-    const password=req.body.password;
-    //find user
-    const User = await user.findOne({email});
-    
-    if(User){
-        //res.send(resp);
-        const status = await bcrypt.compare(password,User.password);
-        if(status)
-        {
-            const token= jwt.sign({userId:User._id},"secretkey",{expiresIn:'1h'});
-            resp={status:"success",message:"Login Successful! :)",data:{token:token}};
-            res.send(resp);
-        }
-        else{
-            resp={status:"success",message:"Login Unsuccessful! :(",data:{}};
-            res.send(resp);
-        }
-    }
-    else{
-        resp={status:"error",message:"Invalid Login",data:{}};
-        res.status(401).send(resp);
-    }
-    }
-    catch (error){
-        resp={status:"error",message:"No result found",data:{}};
-        res.status(500).send(resp);
-    }
-
-}
-
-const getUser=async(req:Request,res:Response)=>{
-  let resp:ReturnResponse;
-  try{
-   const userID=req.params.userId;
-   const User=await user.findById(userID,{name:1,email:1});
-   if(!User){
-    resp={status:"error",message:"No result found",data:{}};
-    res.send(resp);
-   }
-   else{
-    resp={status:"success",message:"User Found",data:{user:User}};
-    res.send(resp);
-   }
-  } catch (error){
-    resp={status:"error",message:"No result found",data:{}};
-    res.status(500).send(resp);
+  } catch (error) {
+    next(error);
   }
-}
+};
 
-const updateUser=async (req:Request,res:Response)=>{
-    let resp:ReturnResponse;
-    try{
-    const userID= req.body._id;
-    const User= await user.findById(userID);
-    if(!User){
-        resp={status:"error",message:"No result found",data:{}};
-        res.send(resp);
+const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  let resp: ReturnResponse;
+
+  try {
+    const userID = req.body._id;
+    if (req.userId != req.body._id) {
+      const err = new Error("Function not allowed");
+      err.statusCode = 101;
+      throw err;
     }
-    else{
-      User.name =req.body.name;
+    const User = await user.findById(userID);
+    if (!User) {
+      const err=new Error(" User not found");
+      err.statusCode=401;
+      throw err;
+    } else {
+      User.name = req.body.name;
       await User.save();
-       resp={status:"success",message:"User Data Updated",data:{}};
-        res.send(resp);
+      resp = { status: "success", message: "User Data Updated", data: {} };
+      res.send(resp);
     }
-  } catch (error){
-    resp={status:"error",message:"No result found",data:{}};
-    res.status(500).send(resp);
+  } catch (error) {
+    next(error);
   }
+};
 
-}
-
-
-
-export {registerUser,getUser,updateUser,loginUser};
+export { getUser, updateUser };

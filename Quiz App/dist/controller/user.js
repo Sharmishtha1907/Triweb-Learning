@@ -12,92 +12,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.updateUser = exports.getUser = exports.registerUser = void 0;
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+exports.updateUser = exports.getUser = void 0;
 const user_1 = __importDefault(require("../model/user"));
-const registerUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const error_1 = __importDefault(require("../helper/error"));
+const getUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let resp;
-    try {
-        const email = req.body.email;
-        const name = req.body.name;
-        let password = yield bcryptjs_1.default.hash(req.body.password, 12);
-        const User = new user_1.default({ email, name, password });
-        const result = yield User.save();
-        if (!result) {
-            resp = { status: "error", message: "No result found", data: {} };
-            res.send(resp);
-        }
-        else {
-            resp = { status: "success", message: "Registeration done", data: { userId: result._id } };
-            res.send(resp);
-        }
-    }
-    catch (error) {
-        resp = { status: "error", message: "No result found", data: {} };
-        res.status(500).send(resp);
-    }
-});
-exports.registerUser = registerUser;
-const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let resp;
-    try {
-        const email = req.body.email;
-        const password = req.body.password;
-        //find user
-        const User = yield user_1.default.findOne({ email });
-        if (User) {
-            //res.send(resp);
-            const status = yield bcryptjs_1.default.compare(password, User.password);
-            if (status) {
-                const token = jsonwebtoken_1.default.sign({ userId: User._id }, "secretkey", { expiresIn: '1h' });
-                resp = { status: "success", message: "Login Successful! :)", data: { token: token } };
-                res.send(resp);
-            }
-            else {
-                resp = { status: "success", message: "Login Unsuccessful! :(", data: {} };
-                res.send(resp);
-            }
-        }
-        else {
-            resp = { status: "error", message: "Invalid Login", data: {} };
-            res.status(401).send(resp);
-        }
-    }
-    catch (error) {
-        resp = { status: "error", message: "No result found", data: {} };
-        res.status(500).send(resp);
-    }
-});
-exports.loginUser = loginUser;
-const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let resp;
+    console.log(req.userId);
     try {
         const userID = req.params.userId;
+        if (req.userId != req.params.userId) {
+            const err = new error_1.default("Function not allowed");
+            err.statusCode = 401;
+            throw err;
+        }
         const User = yield user_1.default.findById(userID, { name: 1, email: 1 });
         if (!User) {
-            resp = { status: "error", message: "No result found", data: {} };
-            res.send(resp);
+            const err = new error_1.default("User does not  Exist");
+            err.statusCode = 401;
+            throw err;
         }
         else {
             resp = { status: "success", message: "User Found", data: { user: User } };
-            res.send(resp);
+            res.status(200).send(resp);
         }
     }
     catch (error) {
-        resp = { status: "error", message: "No result found", data: {} };
-        res.status(500).send(resp);
+        next(error);
     }
 });
 exports.getUser = getUser;
-const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let resp;
     try {
         const userID = req.body._id;
+        if (req.userId != req.body._id) {
+            const err = new error_1.default("Function not allowed");
+            err.statusCode = 101;
+            throw err;
+        }
         const User = yield user_1.default.findById(userID);
         if (!User) {
-            resp = { status: "error", message: "No result found", data: {} };
-            res.send(resp);
+            const err = new error_1.default(" User not found");
+            err.statusCode = 401;
+            throw err;
         }
         else {
             User.name = req.body.name;
@@ -107,8 +64,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
     }
     catch (error) {
-        resp = { status: "error", message: "No result found", data: {} };
-        res.status(500).send(resp);
+        next(error);
     }
 });
 exports.updateUser = updateUser;

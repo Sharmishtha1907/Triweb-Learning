@@ -1,13 +1,12 @@
-import express from 'express';
-import {registerUser,getUser,updateUser,loginUser} from '../controller/user';
+import express from "express";
+import { getUser, updateUser } from "../controller/user";
+import { isauth } from "../middleware/isauth";
+
+
 const router = express.Router();
 
-router.post('/',registerUser);
+router.get("/:userId", isauth, getUser);
 
-router.post('/login',loginUser);
-
-router.get('/:userId',getUser);
-
-router.put('/',updateUser);
+router.put("/", isauth, updateUser);
 
 export default router;
