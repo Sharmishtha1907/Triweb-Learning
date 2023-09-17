@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const auth_1 = require("../controller/auth");
-const error_1 = __importDefault(require("../helper/error"));
 const express_validator_1 = require("express-validator");
 const router = express_1.default.Router();
 //POST /auth/
@@ -15,17 +14,15 @@ router.post('/', [
         .not()
         .isEmpty()
         .isLength({ min: 3 })
-        .withMessage("Name shoud atleast have 6 characters"),
+        .withMessage("Name shoud atleast have 3 characters"),
     (0, express_validator_1.body)('email')
         .trim()
         .isEmail()
-        .custom(emailId => {
+        .custom((emailId) => {
         return (0, auth_1.isUserExist)(emailId)
             .then((status => {
             if (status) {
-                const err = new error_1.default("User already exists");
-                err.statusCode = 422;
-                throw err;
+                return Promise.reject("User Exists");
                 //return Promise.reject("User already exists");
             }
         }))
@@ -33,7 +30,19 @@ router.post('/', [
             return Promise.reject(err);
         }));
     })
-        .normalizeEmail()
+        .normalizeEmail(),
+    (0, express_validator_1.body)('password')
+        .trim()
+        .isLength({ min: 8 })
+        .withMessage("Password must have 8 characters"),
+    (0, express_validator_1.body)('confirm_password')
+        .trim()
+        .custom((value, { req }) => {
+        if (value != req.body.password) {
+            return Promise.reject("Password does not match");
+        }
+        return true;
+    })
 ], auth_1.registerUser);
 //POST /auth/login/
 router.post('/login', auth_1.loginUser);

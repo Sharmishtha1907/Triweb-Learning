@@ -92,6 +92,12 @@ const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
 });
 exports.loginUser = loginUser;
 const isUserExist = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    ;
+    //find user
+    const User = yield user_1.default.findOne({ email });
+    if (!User) {
+        return false;
+    }
     return true;
 });
 exports.isUserExist = isUserExist;

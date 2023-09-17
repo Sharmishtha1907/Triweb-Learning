@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_1 = __importDefault(require("./routers/user"));
 const auth_1 = __importDefault(require("./routers/auth"));
+const quiz_1 = __importDefault(require("./routers/quiz"));
 const app = (0, express_1.default)();
 const connectionString = "mongodb+srv://beinggarffield:Shanu@prac.mb0f7y3.mongodb.net/workshop?retryWrites=true&w=majority";
 app.use(express_1.default.json());
@@ -16,19 +17,21 @@ app.get("/", (req, res) => {
 //Redirect /user
 app.use("/user", user_1.default);
 app.use("/auth", auth_1.default);
+//Redirect /quiz
+app.use('/quiz', quiz_1.default);
 app.use((err, req, res, next) => {
-    let message;
+    let mess;
     let statusCode;
     let data;
     if (!!err.statusCode && err.statusCode < 500) {
-        message = err.message;
+        mess = err.message;
         statusCode = err.statusCode;
     }
     else {
-        message = "Some technical issue occured";
+        mess = "Some technical issue occured";
         statusCode = 500;
     }
-    let resp = { status: "error", message: message, data: {} };
+    let resp = { status: "error", message: mess, data: {} };
     if (!!err.data) {
         resp.data = err.data;
     }

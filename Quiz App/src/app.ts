@@ -3,10 +3,11 @@ import mongoose from "mongoose";
 
 import UserRoute from "./routers/user";
 import authRoute from "./routers/auth";
+import quizRoute from "./routers/quiz";
 
-import ProjectError from "./helper/error";
 
 import { Request, Response } from "express";
+import Error from "./helper/error";
 
 const app = express();
 const connectionString =
@@ -31,26 +32,29 @@ app.use("/user", UserRoute);
 
 app.use("/auth", authRoute);
 
+//Redirect /quiz
+app.use('/quiz',quizRoute)
+
 app.use(
-  (err: ProjectError, req: Request, res: Response, next: NextFunction) => {
+  (err: Error, req: Request, res: Response, next: NextFunction) => {
     interface ReturnResponse {
       status: "success" | "error";
       message: String;
       data: {};
     }
 
-    let message: String;
+    let mess: String;
     let statusCode: number;
     let data;
 
-    if (!!err.statusCode && err.statusCode < 500) {
-      message = err.message;
+    if (!!err.statusCode&&err.statusCode < 500) {
+      mess = err.message;
       statusCode = err.statusCode;
     } else {
-      message = "Some technical issue occured";
+      mess = "Some technical issue occured";
       statusCode = 500;
     }
-    let resp: ReturnResponse = { status: "error", message: message, data: {} };
+    let resp: ReturnResponse = { status: "error", message: mess, data: {} };
     if (!!err.data) {
       resp.data = err.data;
     }

@@ -90,8 +90,8 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
 const isUserExist=async (email:String) =>{
 ;
     //find user
-    const User = await user.findOne({ email });
-    if(!user){
+    const User = await user.findOne({email});
+    if(!User){
        return false;
     }
     return true;

@@ -1,6 +1,6 @@
 import express from "express";
 import { registerUser, loginUser,isUserExist } from "../controller/auth";
-import Error from '../helper/error';
+
 import {body} from 'express-validator';
 const router = express.Router();
 
@@ -15,13 +15,11 @@ router.post('/',[
     body('email')
     .trim()
     .isEmail()
-    .custom(emailId=>{
+    .custom((emailId:String)=>{
         return isUserExist(emailId)
         .then((status=>{
             if(status){
-                const err= new Error("User already exists");
-                err.statusCode=422;
-                throw err;
+                return Promise.reject("User Exists");
               //return Promise.reject("User already exists");
             }
         }))
@@ -37,10 +35,11 @@ router.post('/',[
     .withMessage("Password must have 8 characters"),
     body('confirm_password')
     .trim()
-    .custom((value,{req})=>{
+    .custom((value:String,{req})=>{
         if(value!=req.body.password){
             return Promise.reject("Password does not match");
         }
+        return true;
     })
 ], registerUser);
 
