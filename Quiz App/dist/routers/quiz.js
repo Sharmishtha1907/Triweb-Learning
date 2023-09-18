@@ -28,7 +28,7 @@ router.post("/", isauth_1.isauth, [
         return true;
     })
 ], quiz_1.createQuiz);
-router.get("/:quizId", isauth_1.isauth, quiz_1.getQuiz);
+router.get("/:quizId?", isauth_1.isauth, quiz_1.getQuiz);
 router.put("/", isauth_1.isauth, [
     (0, express_validator_1.body)('name')
         .trim()

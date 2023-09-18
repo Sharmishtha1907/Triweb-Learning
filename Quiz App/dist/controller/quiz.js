@@ -45,21 +45,37 @@ const createQuiz = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 exports.createQuiz = createQuiz;
 const getQuiz = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const quizId = req.params.quizId;
-        const Quiz = yield quiz_1.default.findById(quizId, {
-            name: 1,
-            question_list: 1,
-            answers: 1,
-            created_By: 1
-        });
+        let Quiz;
+        if (!!req.params.quizId) {
+            const quizId = req.params.quizId;
+            Quiz = yield quiz_1.default.findById(quizId, {
+                name: 1,
+                question_list: 1,
+                answers: 1,
+                created_By: 1,
+            });
+            if (!Quiz) {
+                const err = new error_1.default("Quiz not found");
+                err.statusCode = 404;
+                throw err;
+            }
+            if (req.userId !== Quiz.created_By.toString()) {
+                const err = new error_1.default("You are not authorized");
+                err.statusCode = 403;
+                throw err;
+            }
+        }
+        else {
+            Quiz = yield quiz_1.default.find({ created_By: req.userId }, {
+                name: 1,
+                question_list: 1,
+                answers: 1,
+                created_By: 1,
+            });
+        }
         if (!Quiz) {
             const err = new error_1.default("Quiz not found");
             err.statusCode = 404;
-            throw err;
-        }
-        if (req.userId !== Quiz.created_By.toString()) {
-            const err = new error_1.default("You are not authorized");
-            err.statusCode = 403;
             throw err;
         }
         const resp = {
@@ -139,7 +155,7 @@ const deleteQuiz = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         const resp = {
             status: "success",
             message: "Quiz Deleted Successfully",
-            data: {}
+            data: {},
         };
         res.status(200).send(resp);
     }
@@ -167,7 +183,7 @@ const publishQuiz = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         const resp = {
             status: "success",
             message: "Quiz Published Successfully",
-            data: {}
+            data: {},
         };
         res.status(200).send(resp);
     }

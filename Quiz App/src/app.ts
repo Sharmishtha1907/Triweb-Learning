@@ -5,6 +5,7 @@ import UserRoute from "./routers/user";
 import authRoute from "./routers/auth";
 import quizRoute from "./routers/quiz";
 import examRoute from "./routers/exam";
+import reportRoute from "./routers/report";
 
 import { Request, Response } from "express";
 import Error from "./helper/error";
@@ -36,6 +37,8 @@ app.use("/auth", authRoute);
 app.use("/quiz", quizRoute);
 
 app.use("/exam", examRoute);
+
+app.use("/report", reportRoute);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   interface ReturnResponse {

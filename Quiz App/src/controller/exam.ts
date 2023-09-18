@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import quiz from "../model/quiz";
-import result from "../model/result";
+import Report from "../model/report";
 import ProjectError from "../helper/error";
 
 interface ReturnResponse {
@@ -65,7 +65,7 @@ const submitExam = async (req: Request, res: Response, next: NextFunction) => {
             score=score+1;
         }
     }
-    const report = new result({ userId, quizId, score, total });
+    const report = new Report({ userId, quizId, score, total });
     const data= await report.save();
     const resp: ReturnResponse = {
         status: "success",

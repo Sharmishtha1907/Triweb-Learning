@@ -27,7 +27,7 @@ router.post("/",isauth,[
 ],
 createQuiz);
 
-router.get("/:quizId",isauth,getQuiz);
+router.get("/:quizId?",isauth,getQuiz);
 
 router.put("/",isauth,[
     body('name')

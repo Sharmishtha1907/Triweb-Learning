@@ -11,12 +11,11 @@ interface ReturnResponse {
 
 const createQuiz = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const validationError=validationResult(req);
-    if(!validationError.isEmpty())
-    {
+    const validationError = validationResult(req);
+    if (!validationError.isEmpty()) {
       const err = new ProjectError("Validation failed!");
-      err.statusCode=422;
-      err.data= validationError.array();
+      err.statusCode = 422;
+      err.data = validationError.array();
       throw err;
     }
     const created_By = req.userId;
@@ -38,23 +37,39 @@ const createQuiz = async (req: Request, res: Response, next: NextFunction) => {
 
 const getQuiz = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const quizId = req.params.quizId;
-    const Quiz = await quiz.findById(quizId, {
-      name: 1,
-      question_list: 1,
-      answers: 1,
-      created_By:1
-    });
+    let Quiz;
+    if (!!req.params.quizId) {
+      const quizId = req.params.quizId;
+       Quiz = await quiz.findById(quizId, {
+        name: 1,
+        question_list: 1,
+        answers: 1,
+        created_By: 1,
+      });
+      if (!Quiz) {
+        const err = new ProjectError("Quiz not found");
+        err.statusCode = 404;
+        throw err;
+      }
+      if (req.userId !== Quiz.created_By.toString()) {
+        const err = new ProjectError("You are not authorized");
+        err.statusCode = 403;
+        throw err;
+      }
+    } else {
+      Quiz = await quiz.find({created_By:req.userId}, {
+        name: 1,
+        question_list: 1,
+        answers: 1,
+        created_By: 1,
+      });
+    }
     if (!Quiz) {
       const err = new ProjectError("Quiz not found");
       err.statusCode = 404;
       throw err;
     }
-    if (req.userId !== Quiz.created_By.toString()) {
-      const err = new ProjectError("You are not authorized");
-      err.statusCode = 403;
-      throw err;
-    }
+
     const resp: ReturnResponse = {
       status: "success",
       message: "Quiz Found",
@@ -68,12 +83,11 @@ const getQuiz = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateQuiz = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const validationError=validationResult(req);
-    if(!validationError.isEmpty())
-    {
+    const validationError = validationResult(req);
+    if (!validationError.isEmpty()) {
       const err = new ProjectError("Validation failed!");
-      err.statusCode=422;
-      err.data= validationError.array();
+      err.statusCode = 422;
+      err.data = validationError.array();
       throw err;
     }
     const quizId = req.body.quizId;
@@ -133,7 +147,7 @@ const deleteQuiz = async (req: Request, res: Response, next: NextFunction) => {
     const resp: ReturnResponse = {
       status: "success",
       message: "Quiz Deleted Successfully",
-      data: {}
+      data: {},
     };
 
     res.status(200).send(resp);
@@ -161,7 +175,7 @@ const publishQuiz = async (req: Request, res: Response, next: NextFunction) => {
     const resp: ReturnResponse = {
       status: "success",
       message: "Quiz Published Successfully",
-      data: {}
+      data: {},
     };
     res.status(200).send(resp);
   } catch (error) {

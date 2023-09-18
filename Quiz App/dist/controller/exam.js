@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.submitExam = exports.startExam = void 0;
 const quiz_1 = __importDefault(require("../model/quiz"));
-const result_1 = __importDefault(require("../model/result"));
+const report_1 = __importDefault(require("../model/report"));
 const error_1 = __importDefault(require("../helper/error"));
 const startExam = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -72,7 +72,7 @@ const submitExam = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
                 score = score + 1;
             }
         }
-        const report = new result_1.default({ userId, quizId, score, total });
+        const report = new report_1.default({ userId, quizId, score, total });
         const data = yield report.save();
         const resp = {
             status: "success",
