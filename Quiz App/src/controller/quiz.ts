@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import quiz from "../model/quiz";
 import ProjectError from "../helper/error";
+import { validationResult } from "express-validator";
 
 interface ReturnResponse {
   status: "success" | "error";
@@ -10,6 +11,14 @@ interface ReturnResponse {
 
 const createQuiz = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const validationError=validationResult(req);
+    if(!validationError.isEmpty())
+    {
+      const err = new ProjectError("Validation failed!");
+      err.statusCode=422;
+      err.data= validationError.array();
+      throw err;
+    }
     const created_By = req.userId;
     const name = req.body.name;
     const question_list = req.body.question_list;
@@ -59,6 +68,14 @@ const getQuiz = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateQuiz = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const validationError=validationResult(req);
+    if(!validationError.isEmpty())
+    {
+      const err = new ProjectError("Validation failed!");
+      err.statusCode=422;
+      err.data= validationError.array();
+      throw err;
+    }
     const quizId = req.body.quizId;
     const Quiz = await quiz.findById(quizId);
     if (!Quiz) {
@@ -69,6 +86,11 @@ const updateQuiz = async (req: Request, res: Response, next: NextFunction) => {
     if (req.userId !== Quiz.created_By.toString()) {
       const err = new ProjectError("You are not authorized");
       err.statusCode = 403;
+      throw err;
+    }
+    if (Quiz.is_published) {
+      const err = new ProjectError("You cannot delete a published quiz");
+      err.statusCode = 405;
       throw err;
     }
     Quiz.name = req.body.name;
@@ -97,17 +119,21 @@ const deleteQuiz = async (req: Request, res: Response, next: NextFunction) => {
       err.statusCode = 404;
       throw err;
     }
-    console.log(req.userId,Quiz.created_By);
     if (req.userId !== Quiz.created_By.toString()) {
       const err = new ProjectError("You are not authorized");
       err.statusCode = 403;
+      throw err;
+    }
+    if (Quiz.is_published) {
+      const err = new ProjectError("You cannot update a published quiz");
+      err.statusCode = 405;
       throw err;
     }
     await quiz.deleteOne({ _id: quizId });
     const resp: ReturnResponse = {
       status: "success",
       message: "Quiz Deleted Successfully",
-      data: {},
+      data: {}
     };
 
     res.status(200).send(resp);
@@ -127,7 +153,7 @@ const publishQuiz = async (req: Request, res: Response, next: NextFunction) => {
     }
     if (Quiz.is_published) {
       const err = new ProjectError("Quiz already Published");
-      err.statusCode = 103;
+      err.statusCode = 405;
       throw err;
     }
     Quiz.is_published = true;
@@ -135,7 +161,7 @@ const publishQuiz = async (req: Request, res: Response, next: NextFunction) => {
     const resp: ReturnResponse = {
       status: "success",
       message: "Quiz Published Successfully",
-      data: {},
+      data: {}
     };
     res.status(200).send(resp);
   } catch (error) {

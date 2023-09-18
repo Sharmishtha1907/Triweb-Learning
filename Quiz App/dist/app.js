@@ -8,6 +8,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const user_1 = __importDefault(require("./routers/user"));
 const auth_1 = __importDefault(require("./routers/auth"));
 const quiz_1 = __importDefault(require("./routers/quiz"));
+const exam_1 = __importDefault(require("./routers/exam"));
 const app = (0, express_1.default)();
 const connectionString = "mongodb+srv://beinggarffield:Shanu@prac.mb0f7y3.mongodb.net/workshop?retryWrites=true&w=majority";
 app.use(express_1.default.json());
@@ -18,7 +19,8 @@ app.get("/", (req, res) => {
 app.use("/user", user_1.default);
 app.use("/auth", auth_1.default);
 //Redirect /quiz
-app.use('/quiz', quiz_1.default);
+app.use("/quiz", quiz_1.default);
+app.use("/exam", exam_1.default);
 app.use((err, req, res, next) => {
     let mess;
     let statusCode;

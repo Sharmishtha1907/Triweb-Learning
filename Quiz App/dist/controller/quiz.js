@@ -15,8 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.publishQuiz = exports.deleteQuiz = exports.updateQuiz = exports.getQuiz = exports.createQuiz = void 0;
 const quiz_1 = __importDefault(require("../model/quiz"));
 const error_1 = __importDefault(require("../helper/error"));
+const express_validator_1 = require("express-validator");
 const createQuiz = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const validationError = (0, express_validator_1.validationResult)(req);
+        if (!validationError.isEmpty()) {
+            const err = new error_1.default("Validation failed!");
+            err.statusCode = 422;
+            err.data = validationError.array();
+            throw err;
+        }
         const created_By = req.userId;
         const name = req.body.name;
         const question_list = req.body.question_list;
@@ -68,6 +76,13 @@ const getQuiz = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
 exports.getQuiz = getQuiz;
 const updateQuiz = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const validationError = (0, express_validator_1.validationResult)(req);
+        if (!validationError.isEmpty()) {
+            const err = new error_1.default("Validation failed!");
+            err.statusCode = 422;
+            err.data = validationError.array();
+            throw err;
+        }
         const quizId = req.body.quizId;
         const Quiz = yield quiz_1.default.findById(quizId);
         if (!Quiz) {
@@ -78,6 +93,11 @@ const updateQuiz = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         if (req.userId !== Quiz.created_By.toString()) {
             const err = new error_1.default("You are not authorized");
             err.statusCode = 403;
+            throw err;
+        }
+        if (Quiz.is_published) {
+            const err = new error_1.default("You cannot delete a published quiz");
+            err.statusCode = 405;
             throw err;
         }
         Quiz.name = req.body.name;
@@ -105,17 +125,21 @@ const deleteQuiz = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             err.statusCode = 404;
             throw err;
         }
-        console.log(req.userId, Quiz.created_By);
         if (req.userId !== Quiz.created_By.toString()) {
             const err = new error_1.default("You are not authorized");
             err.statusCode = 403;
+            throw err;
+        }
+        if (Quiz.is_published) {
+            const err = new error_1.default("You cannot update a published quiz");
+            err.statusCode = 405;
             throw err;
         }
         yield quiz_1.default.deleteOne({ _id: quizId });
         const resp = {
             status: "success",
             message: "Quiz Deleted Successfully",
-            data: {},
+            data: {}
         };
         res.status(200).send(resp);
     }
@@ -135,7 +159,7 @@ const publishQuiz = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         }
         if (Quiz.is_published) {
             const err = new error_1.default("Quiz already Published");
-            err.statusCode = 103;
+            err.statusCode = 405;
             throw err;
         }
         Quiz.is_published = true;
@@ -143,7 +167,7 @@ const publishQuiz = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         const resp = {
             status: "success",
             message: "Quiz Published Successfully",
-            data: {},
+            data: {}
         };
         res.status(200).send(resp);
     }
