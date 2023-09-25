@@ -29,8 +29,7 @@ router.post('/', [
             .catch((err => {
             return Promise.reject(err);
         }));
-    })
-        .normalizeEmail(),
+    }),
     (0, express_validator_1.body)('password')
         .trim()
         .isLength({ min: 8 })

@@ -27,8 +27,7 @@ router.post('/',[
             return Promise.reject(err);
         }));
 
-    })
-    .normalizeEmail(),
+    }),
     body('password')
     .trim()
     .isLength({min:8})

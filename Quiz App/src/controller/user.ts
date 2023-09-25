@@ -15,11 +15,6 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
   console.log(req.userId);
   try {
     const userID = req.params.userId;
-    if (req.userId != req.params.userId) {
-      const err = new Error("Function not allowed");
-      err.statusCode = 401;
-      throw err;
-    }
     const User = await user.findById(userID, { name: 1, email: 1 });
     if (!User) {
       const err = new Error("User does not  Exist");

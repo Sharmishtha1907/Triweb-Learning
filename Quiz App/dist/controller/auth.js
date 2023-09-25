@@ -70,7 +70,7 @@ const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
                 resp = {
                     status: "success",
                     message: "Login Successful! :)",
-                    data: { token: token },
+                    data: { token: token, userId: User._id },
                 };
                 res.send(resp);
             }
