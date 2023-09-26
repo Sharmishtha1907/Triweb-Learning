@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-
+import MainMenuStyle from "./MainMenu.module.css"
 function MainMenu() {
   return (
-    <header>
+    <header className={MainMenuStyle.header}>
       <nav>
         <ul>
           <li>
