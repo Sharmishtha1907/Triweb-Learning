@@ -1,3 +1,5 @@
 React is javascript library
 
 SPA->Single PAge Application
+
+useState -> function in react that has 2 values - var,function
