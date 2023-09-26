@@ -2,11 +2,12 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact"
 import {Routes,Route} from 'react-router-dom';
+import MainMenu from "./component/layouts/MainMenu";
 
 function App() {
   return (
     <div>
-     <h1>Hello</h1>
+    <MainMenu/>
      <Routes>
      <Route path="/" element={<Home />}></Route>
      <Route path="/about" element={<About />}></Route>
