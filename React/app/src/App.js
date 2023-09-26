@@ -3,7 +3,7 @@ import FirstComponent from "./component/FirstComponent";
 function App() {
   return (
     <div>
-      <FirstComponent/>
+      <FirstComponent owner="Shanu" reason="To test react" />
     </div>
   );
 }

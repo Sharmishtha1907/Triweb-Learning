@@ -1,7 +1,7 @@
-function FirstComponent(){
+function FirstComponent(props){
     return <div>
-        <h1>My react application</h1>
-        <p> Its my first react application</p>
+        <h1>{props.owner} react application</h1>
+        <p> Its my first react application {props.reason}</p>
       </div>
 }
 
