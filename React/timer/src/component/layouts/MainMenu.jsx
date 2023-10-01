@@ -17,6 +17,9 @@ function MainMenu() {
           <li>
             <Link to="/product">Product</Link>
           </li>
+          <li>
+            <Link to="/product/cart">Cart</Link>
+          </li>
         </ul>
       </nav>
     </header>
