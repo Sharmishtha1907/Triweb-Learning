@@ -1,21 +1,21 @@
 import ProductItemStyle from "./ProductItem.module.css";
+import Wrapper from "../layouts/Wrapper";
 
 function ProductItem(props) {
   return (
-    <div >
-      <li key={props.item.id}><img src={props.item.image} alt="No Img" height="400px" width="400px"/>
+    <li key={props.item.id}>
+      <Wrapper>
         <div className={ProductItemStyle.items}>
-            <h2>{props.item.product_name}</h2>
-            <p>{props.item.description}</p>
-            <h4>
-                {props.item.price}
-            </h4>
-            <button className=""> Buy Now</button> <button className="">Add To Cart</button>
+          <img src={props.item.image} alt="No Img" />
+          <h2>{props.item.product_name}</h2>
+          <p>{props.item.description}</p>
+          <h4>{props.item.price}</h4>
+          <button className=""> Buy Now</button>{" "}
+          <button className="">Add To Cart</button>
         </div>
-        </li>
-        <br/>
-      
-    </div>
+      </Wrapper>
+      <br />
+    </li>
   );
 }
 
