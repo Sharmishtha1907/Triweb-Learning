@@ -11,7 +11,7 @@ const quiz_1 = __importDefault(require("./routers/quiz"));
 const exam_1 = __importDefault(require("./routers/exam"));
 const report_1 = __importDefault(require("./routers/report"));
 const app = (0, express_1.default)();
-const connectionString = "mongodb+srv://beinggarffield:Shanu@prac.mb0f7y3.mongodb.net/workshop?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://username:pass@prac.mb0f7y3.mongodb.net/workshop?retryWrites=true&w=majority";
 app.use(express_1.default.json());
 app.get("/", (req, res) => {
     res.send("Hello Shanu");
